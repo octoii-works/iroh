@@ -1,5 +1,5 @@
 [package]
-name = "octoii-net-base"
+name = "iroh-base"
 version = "1.4.1"
 edition = "2024"
 readme = "README.md"
@@ -13,9 +13,6 @@ rust-version = "1.91"
 
 [lints]
 workspace = true
-
-[lib]
-name = "iroh_base"
 
 [dependencies]
 curve25519-dalek = { version = ">=5.0.0-rc.0,<6.0.0", features = ["serde", "rand_core", "zeroize"], optional = true }
