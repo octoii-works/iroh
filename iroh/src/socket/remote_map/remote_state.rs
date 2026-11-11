@@ -315,7 +315,11 @@ impl RemoteStateActor {
                     self.trigger_holepunching();
                 }
                 Some(item) = maybe_next(self.state.address_lookup_stream.as_mut()), if self.state.address_lookup_stream.is_some() => {
-                    self.state.handle_address_lookup_item(item);
+                    // A custom transport's address found while connected is opened as a path at once, as a
+                    // relay's is: no holepunching ever opens one.
+                    for addr in self.state.handle_address_lookup_item(item) {
+                        self.open_path_on_all_conns(&transports::FourTuple::from_remote(addr));
+                    }
                 }
                 _ = check_connections.tick() => {
                     self.check_connections();
@@ -902,11 +906,12 @@ impl State {
     /// Handles an address lookup result.
     ///
     /// All address lookup results end up being sent here. It takes care of updating the
-    /// [`RemotePathState`] with the results.
+    /// [`RemotePathState`] with the results, and returns the custom transport addresses
+    /// it found, which the caller opens paths to.
     fn handle_address_lookup_item(
         &mut self,
         item: Option<Result<AddressLookupItem, AddressLookupFailed>>,
-    ) {
+    ) -> Vec<transports::Addr> {
         match item {
             None => {
                 self.paths.address_lookup_finished(Ok(()));
@@ -931,12 +936,20 @@ impl State {
                     let source = Source::AddressLookup {
                         name: item.provenance().to_string(),
                     };
-                    let addrs =
-                        to_transports_addr(self.endpoint_id, item.into_endpoint_addr().addrs);
-                    self.paths.insert_multiple(addrs, source);
+                    let addrs: Vec<_> =
+                        to_transports_addr(self.endpoint_id, item.into_endpoint_addr().addrs)
+                            .collect();
+                    let custom = addrs
+                        .iter()
+                        .filter(|addr| matches!(addr, transports::Addr::Custom(_)))
+                        .cloned()
+                        .collect();
+                    self.paths.insert_multiple(addrs.into_iter(), source);
+                    return custom;
                 }
             }
         }
+        Vec::new()
     }
 
     /// Unconditionally perform holepunching.
