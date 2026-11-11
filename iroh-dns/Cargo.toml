@@ -1,5 +1,5 @@
 [package]
-name = "iroh-dns"
+name = "octoii-net-dns"
 version = "1.4.1"
 edition = "2024"
 description = "DNS-based endpoint discovery for iroh"
@@ -12,10 +12,13 @@ rust-version = "1.91"
 [lints]
 workspace = true
 
+[lib]
+name = "iroh_dns"
+
 [dependencies]
 arc-swap = "1.9.1"
 derive_more = { version = "2.0.1", features = ["debug"] }
-iroh-base = { version = "1.4.1", path = "../iroh-base", default-features = false, features = ["key", "relay"] }
+iroh-base = { package = "octoii-net-base", version = "1.4.1", path = "../iroh-base", default-features = false, features = ["key", "relay"] }
 n0-error = "1.0.0"
 n0-future = "0.3"
 portable-atomic = "1"

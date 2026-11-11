@@ -1,14 +1,17 @@
 [package]
-name = "iroh-bench"
+name = "octoii-net-bench"
 version = "1.4.1"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 publish = false
 
+[lib]
+name = "iroh_bench"
+
 [dependencies]
 bytes = "1.11"
 hdrhistogram = { version = "7.2", default-features = false }
-iroh = { version = "1.4.1", path = "..", default-features = false }
+iroh = { package = "octoii-net", version = "1.4.1", path = "..", default-features = false }
 iroh-metrics = { version = "1.0.2", optional = true }
 n0-future = "0.3"
 n0-error = "1.0.0"

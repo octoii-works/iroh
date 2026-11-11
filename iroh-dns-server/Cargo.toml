@@ -1,5 +1,5 @@
 [package]
-name = "iroh-dns-server"
+name = "octoii-net-dns-server"
 version = "1.4.1"
 edition = "2024"
 description = "A pkarr relay and DNS server"
@@ -11,6 +11,9 @@ readme = "README.md"
 
 [lints]
 workspace = true
+
+[lib]
+name = "iroh_dns_server"
 
 [dependencies]
 async-trait = "0.1.77"
@@ -32,9 +35,9 @@ http = "1.0.0"
 humantime = "2.2.0"
 humantime-serde = "1.1.1"
 hyper-util = { version = "0.1.20", features = ["server-auto", "tokio"] }
-iroh-base = { version = "1.4.1", path = "../iroh-base", features = ["key"] }
+iroh-base = { package = "octoii-net-base", version = "1.4.1", path = "../iroh-base", features = ["key"] }
 iroh-metrics = { version = "1.0.2", features = ["service"] }
-iroh-dns = { version = "1.4.1", path = "../iroh-dns" }
+iroh-dns = { package = "octoii-net-dns", version = "1.4.1", path = "../iroh-dns" }
 lru = "0.18.3"
 n0-mainline = "0.7"
 n0-future = "0.3"
@@ -62,7 +65,7 @@ url = "2.5.3"
 [dev-dependencies]
 criterion = "0.8.0"
 data-encoding = "2.3.3"
-iroh = { path = "../iroh" }
+iroh = { package = "octoii-net", path = "../iroh" }
 n0-error = { version = "1.0.0", features = ["anyhow"] }
 n0-tracing-test = "0.3"
 rand = "0.10"
@@ -86,7 +89,7 @@ default = ["ring"]
 ring = ["rustls/ring", "tokio-rustls/ring"]
 
 [[bin]]
-name = "iroh-dns-server"
+name = "octoii-net-dns-server"
 path = "src/main.rs"
 required-features = ["ring"]
 

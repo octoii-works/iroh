@@ -1,3 +1,14 @@
+# octoii-net
+
+octoii-net is Octoii's network layer: QUIC endpoints dialed by their public keys, with relays, hole punching and
+multipath. It is derived from [iroh](https://github.com/n0-computer/iroh) by n0, inc., under the same licenses (MIT or
+Apache-2.0, at your option; see LICENSE-MIT and LICENSE-APACHE). Its packages are renamed — `octoii-net`,
+`octoii-net-base`, `octoii-net-relay`, `octoii-net-dns`, `octoii-net-dns-server` — while their libraries keep their
+names, so the code reads as upstream's and merges from it stay small. Our changes are the commits on `main` past the
+upstream release they start from; `upstream` mirrors upstream's main branch.
+
+---
+
 <h1 align="center"><a href="https://iroh.computer"><img alt="iroh" src="./.img/iroh_wordmark.svg" width="100" /></a></h1>
 
 <h3 align="center">
